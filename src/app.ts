@@ -1,4 +1,6 @@
-import express, { Application, Request, Response } from "express";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable no-unused-vars */
+import express, { Application, NextFunction, Request, Response } from "express";
 import cors from "cors";
 import globalErrorHandler from "./app/middlewares/globalErrorHandler";
 import notFound from "./app/middlewares/notFound";
@@ -15,7 +17,14 @@ app.get("/", (req: Request, res: Response) => {
     res.send("Hello World!");
 });
 
-app.use(globalErrorHandler);
-app.use(notFound);
+app.use(
+    globalErrorHandler as (
+        err: any,
+        req: Request,
+        res: Response,
+        next: NextFunction,
+    ) => any,
+);
+app.use(notFound as (req: Request, res: Response, next: NextFunction) => any);
 
 export default app;
