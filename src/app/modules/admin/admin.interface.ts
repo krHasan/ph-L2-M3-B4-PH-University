@@ -1,4 +1,4 @@
-import { Types } from "mongoose";
+import { Model, Types } from "mongoose";
 import { TBloodGroup, TGender, TUserName } from "../common/common.interface";
 
 export type TAdmin = {
@@ -17,3 +17,8 @@ export type TAdmin = {
     profileImg?: string;
     isDeleted: boolean;
 };
+
+export interface AdminModel extends Model<TAdmin> {
+    // eslint-disable-next-line no-unused-vars
+    isUserExists(id: string): Promise<TAdmin | null>;
+}
