@@ -10,6 +10,7 @@ class QueryBuilder<T> {
     }
 
     search(searchableFields: string[]) {
+        //example: http://.../students?searchTerm=khandoker
         if (this?.query?.searchTerm) {
             this.modelQuery = this.modelQuery.find({
                 $or: searchableFields.map(
@@ -28,6 +29,7 @@ class QueryBuilder<T> {
     }
 
     filter() {
+        //example: http://.../students?email=john.doe1@example.com
         const queryObj = { ...this.query };
         const excludeFields = ["searchTerm", "sort", "limit", "page", "fields"];
         excludeFields.forEach((el) => delete queryObj[el]); //remains email
@@ -37,6 +39,7 @@ class QueryBuilder<T> {
     }
 
     sort() {
+        //example: http://.../students?sort=-email
         const sort =
             (this?.query?.sort as string)?.split(",")?.join(" ") ||
             "-createdAt";
@@ -46,6 +49,7 @@ class QueryBuilder<T> {
     }
 
     paginate() {
+        //example: http://.../students?limit=10&page=1
         const page = Number(this?.query?.page) || 1;
         const limit = Number(this?.query?.limit) || 10;
         const skip = (page - 1) * limit;
@@ -56,6 +60,7 @@ class QueryBuilder<T> {
     }
 
     fields() {
+        //example: http://.../students?fields=email,gender
         const fields =
             (this?.query?.fields as string)?.split(",")?.join(" ") || "-__v";
 
