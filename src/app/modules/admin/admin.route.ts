@@ -6,10 +6,10 @@ import { adminValidations } from "./admin.validation";
 const router = express.Router();
 
 router.get("/", AdminControllers.getAllAdmins);
-router.get("/:adminId", AdminControllers.getAdminById);
-router.delete("/:adminId", AdminControllers.deleteAdminById);
+router.get("/:id", AdminControllers.getAdminById);
+router.delete("/:id", AdminControllers.deleteAdminById);
 router.patch(
-    "/:adminId",
+    "/:id",
     validateRequest(adminValidations.updateAdminValidationSchema),
     AdminControllers.updateAdmin,
 );
