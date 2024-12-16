@@ -5,6 +5,8 @@ import { TSemesterRegistration } from "./semesterRegistration.interface";
 import { AcademicSemester } from "../academicSemester/academicSemester.model";
 import { SemesterRegistration } from "./semesterRegistration.model";
 import { RegistrationStatusName } from "./semesterRegistration.constant";
+import { OfferedCourse } from "../offeredCourse/offeredCourse.model";
+import mongoose from "mongoose";
 
 const createSemesterRegistrationIntoDB = async (
     payload: TSemesterRegistration,
@@ -113,9 +115,54 @@ const updateSemesterRegistrationIntoDB = async (
     return result;
 };
 
+const deleteSemesterRegistrationFromDB = async (id: string) => {
+    const isSemesterRegisterExists = await SemesterRegistration.findById(id);
+    if (!isSemesterRegisterExists) {
+        throw new AppError(404, "The registered semester is not found");
+    }
+
+    if (isSemesterRegisterExists.status !== RegistrationStatusName.UPCOMING) {
+        throw new AppError(
+            404,
+            `You can't delete this semester registration because the status is ${isSemesterRegisterExists?.status}`,
+        );
+    }
+
+    const session = await mongoose.startSession();
+    try {
+        session.startTransaction();
+        const deletedOfferedCourse = await OfferedCourse.deleteMany(
+            { semesterRegistration: id },
+            { session },
+        );
+        if (!deletedOfferedCourse) {
+            throw new AppError(400, "Failed to delete semester registration !");
+        }
+        const deletedSemesterRegistration =
+            await SemesterRegistration.findByIdAndDelete(id, {
+                session,
+                new: true,
+            });
+
+        if (!deletedSemesterRegistration) {
+            throw new AppError(400, "Failed to delete semester registration !");
+        }
+
+        await session.commitTransaction();
+        await session.endSession();
+
+        return null;
+    } catch (error: any) {
+        await session.abortTransaction();
+        await session.endSession();
+        throw new Error(error);
+    }
+};
+
 export const SemesterRegistrationServices = {
     createSemesterRegistrationIntoDB,
     getAllSemesterRegistrationFromDB,
     getSemesterRegistrationByIdFromDB,
     updateSemesterRegistrationIntoDB,
+    deleteSemesterRegistrationFromDB,
 };
