@@ -1,6 +1,7 @@
 import { model, Schema } from "mongoose";
 import { userNameSchema } from "../common/common.schema";
 import { AdminModel, TAdmin } from "./admin.interface";
+import { bloodGroupTypes, genderTypes } from "../common/common.constant";
 
 const adminSchema = new Schema<TAdmin, AdminModel>(
     {
@@ -26,7 +27,7 @@ const adminSchema = new Schema<TAdmin, AdminModel>(
         gender: {
             type: String,
             enum: {
-                values: ["Male", "Female", "Other"],
+                values: genderTypes,
                 message: "Gender is Male, Female or Other",
             },
             required: true,
@@ -37,7 +38,7 @@ const adminSchema = new Schema<TAdmin, AdminModel>(
         emergencyContactNo: { type: String, required: true },
         bloodGroup: {
             type: String,
-            enum: ["A+", "A-", "AB+", "AB-", "B+", "B-", "O+", "O-"],
+            enum: bloodGroupTypes,
         },
         presentAddress: { type: String, required: true },
         permanentAddress: { type: String, required: true },

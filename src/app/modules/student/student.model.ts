@@ -6,6 +6,7 @@ import {
     StudentModel,
 } from "./student.interface";
 import { userNameSchema } from "../common/common.schema";
+import { bloodGroupTypes, genderTypes } from "../common/common.constant";
 
 const guardianSchema = new Schema<TGuardian>({
     fatherName: { type: String, required: true },
@@ -40,7 +41,7 @@ const studentSchema = new Schema<TStudent, StudentModel>(
         gender: {
             type: String,
             enum: {
-                values: ["Male", "Female", "Other"],
+                values: genderTypes,
                 message: "Gender is Male, Female or Other",
             },
             required: true,
@@ -51,7 +52,7 @@ const studentSchema = new Schema<TStudent, StudentModel>(
         emergencyContactNo: { type: String, required: true },
         bloodGroup: {
             type: String,
-            enum: ["A+", "A-", "AB+", "AB-", "B+", "B-", "O+", "O-"],
+            enum: bloodGroupTypes,
         },
         presentAddress: { type: String, required: true },
         permanentAddress: { type: String, required: true },
