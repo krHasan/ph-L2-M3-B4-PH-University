@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { v2 as cloudinary } from "cloudinary";
 import config from "../config";
 import multer from "multer";

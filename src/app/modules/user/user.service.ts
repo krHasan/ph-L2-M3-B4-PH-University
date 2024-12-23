@@ -72,7 +72,11 @@ const createStudentIntoDB = async (
     }
 };
 
-const createFacultyIntoDB = async (password: string, payload: TFaculty) => {
+const createFacultyIntoDB = async (
+    password: string,
+    payload: TFaculty,
+    file: any,
+) => {
     const userData: Partial<TUser> = {};
 
     userData.password = password || (config.default_password as string);
@@ -93,6 +97,10 @@ const createFacultyIntoDB = async (password: string, payload: TFaculty) => {
 
         userData.id = await generateFacultyId();
 
+        //image upload
+        const imageName = `${userData?.id}-${payload?.name?.firstName}_${payload?.name?.lastName}`;
+        const uploadResult = await sendImageToCloudinary(file.path, imageName);
+
         const newUser = await User.create([userData], { session });
 
         if (!newUser.length) {
@@ -100,6 +108,7 @@ const createFacultyIntoDB = async (password: string, payload: TFaculty) => {
         }
         payload.id = newUser[0].id;
         payload.user = newUser[0]._id;
+        payload.profileImg = uploadResult?.secure_url;
 
         const newFaculty = await Faculty.create([payload], { session });
         if (!newFaculty) {
@@ -118,7 +127,11 @@ const createFacultyIntoDB = async (password: string, payload: TFaculty) => {
     }
 };
 
-const createAdminIntoDB = async (password: string, payload: TAdmin) => {
+const createAdminIntoDB = async (
+    password: string,
+    payload: TAdmin,
+    file: any,
+) => {
     const userData: Partial<TUser> = {};
 
     userData.password = password || (config.default_password as string);
@@ -132,6 +145,10 @@ const createAdminIntoDB = async (password: string, payload: TAdmin) => {
 
         userData.id = await generateAdminId();
 
+        //image upload
+        const imageName = `${userData?.id}-${payload?.name?.firstName}_${payload?.name?.lastName}`;
+        const uploadResult = await sendImageToCloudinary(file.path, imageName);
+
         const newUser = await User.create([userData], { session });
 
         if (!newUser.length) {
@@ -139,6 +156,7 @@ const createAdminIntoDB = async (password: string, payload: TAdmin) => {
         }
         payload.id = newUser[0].id;
         payload.user = newUser[0]._id;
+        payload.profileImg = uploadResult?.secure_url;
 
         const newAdmin = await Admin.create([payload], { session });
         if (!newAdmin) {
