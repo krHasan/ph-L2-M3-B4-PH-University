@@ -1,15 +1,16 @@
 import { NextFunction, Request, Response } from "express";
 import AppError from "../errors/AppError";
 import { httpStatus } from "../config/httpStatus";
-import jwt, { JwtPayload } from "jsonwebtoken";
+import { JwtPayload } from "jsonwebtoken";
 import config from "../config";
 import { TUserRole } from "../modules/user/user.interface";
 import { User } from "../modules/user/user.model";
+import { verifyToken } from "../modules/auth/auth.utils";
 
 const auth = (...requiredRoles: TUserRole[]) => {
     return async (req: Request, res: Response, next: NextFunction) => {
         try {
-            console.log("auth originalUrl", req.originalUrl);
+            // console.log("auth originalUrl", req.originalUrl);
             const token = req.headers.authorization;
             if (!token) {
                 throw new AppError(
@@ -18,10 +19,10 @@ const auth = (...requiredRoles: TUserRole[]) => {
                 );
             }
 
-            const decoded = jwt.verify(
+            const decoded = verifyToken(
                 token,
                 config.jwt_access_secret as string,
-            ) as JwtPayload;
+            );
 
             const { role, userId, iat } = decoded;
 
