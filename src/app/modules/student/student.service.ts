@@ -25,8 +25,9 @@ const getAllStudentsFromDB = async (query: Record<string, unknown>) => {
         .fields();
 
     const result = await studentQuery.modelQuery;
+    const metaData = await studentQuery.getMetaData();
 
-    return result;
+    return { metaData, result };
 };
 
 const getStudentByIdFromDB = async (id: string) => {

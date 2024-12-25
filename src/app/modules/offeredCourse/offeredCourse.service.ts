@@ -126,7 +126,9 @@ const getAllOfferedCoursesFromDB = async (query: Record<string, unknown>) => {
                 populate: {
                     path: "academicFaculty",
                 },
-            }),
+            })
+            .populate("course")
+            .populate("faculty"),
         query,
     )
         .filter()
@@ -152,7 +154,9 @@ const getOfferedCourseByIdFromDB = async (id: string) => {
             populate: {
                 path: "academicFaculty",
             },
-        });
+        })
+        .populate("course")
+        .populate("faculty");
 };
 
 const updateOfferedCourseIntoDB = async (

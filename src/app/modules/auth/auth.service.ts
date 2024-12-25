@@ -154,7 +154,6 @@ const resetPassword = async (
 
     const decoded = verifyToken(token, config.jwt_access_secret as string);
 
-    console.log(payload.id, decoded.userId);
     if (payload.id !== decoded.userId) {
         throw new AppError(httpStatus.FORBIDDEN, "You are forbidden");
     }
