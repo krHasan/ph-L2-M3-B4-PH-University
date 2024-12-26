@@ -7,11 +7,11 @@ import { TUserRole } from "../modules/user/user.interface";
 import { User } from "../modules/user/user.model";
 import { verifyToken } from "../modules/auth/auth.utils";
 import { USER_STATUS } from "../modules/user/user.constant";
+import { AccessControlServices } from "../modules/accessControl/accessControl.service";
 
 const auth = (...requiredRoles: TUserRole[]) => {
     return async (req: Request, res: Response, next: NextFunction) => {
         try {
-            // console.log("auth originalUrl", req.originalUrl);
             const token = req.headers.authorization;
             if (!token) {
                 throw new AppError(
@@ -49,7 +49,21 @@ const auth = (...requiredRoles: TUserRole[]) => {
                 );
             }
 
-            if (requiredRoles && !requiredRoles.includes(role)) {
+            const allowedRoles =
+                await AccessControlServices.getRolesByMethodAndUrl(
+                    req.method,
+                    req.baseUrl + req.route.path,
+                );
+
+            console.log(
+                `AllowedRoles: ${allowedRoles} for ${req.method}: ${req.baseUrl + req.route.path}`,
+            );
+            if (allowedRoles?.length && !allowedRoles.includes(role)) {
+                throw new AppError(
+                    httpStatus.UNAUTHORIZED,
+                    "You are not authorized",
+                );
+            } else if (requiredRoles?.length && !requiredRoles.includes(role)) {
                 throw new AppError(
                     httpStatus.UNAUTHORIZED,
                     "You are not authorized",

@@ -18,7 +18,7 @@ export const GENDER_TYPES = {
     Other: "Other",
 } as const;
 export const genderTypesArray = Object.values(GENDER_TYPES);
-export const genderTypesErrorMessage = "Gender is Male, Female or Other";
+export const genderTypesErrorMessage = `Allowed gender types are ${genderTypesArray.join(", ")}`;
 
 export const BLOOD_GROUPS = {
     "A+": "A+",
