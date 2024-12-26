@@ -1,7 +1,11 @@
 import { model, Schema } from "mongoose";
-import { userNameSchema } from "../common/common.schema";
+import { userNameSchema } from "../user/user.schema";
 import { AdminModel, TAdmin } from "./admin.interface";
-import { bloodGroupTypes, genderTypes } from "../common/common.constant";
+import {
+    bloodGroupArray,
+    genderTypesArray,
+    genderTypesErrorMessage,
+} from "../user/user.constant";
 
 const adminSchema = new Schema<TAdmin, AdminModel>(
     {
@@ -27,8 +31,8 @@ const adminSchema = new Schema<TAdmin, AdminModel>(
         gender: {
             type: String,
             enum: {
-                values: genderTypes,
-                message: "Gender is Male, Female or Other",
+                values: genderTypesArray,
+                message: genderTypesErrorMessage,
             },
             required: true,
         },
@@ -38,11 +42,11 @@ const adminSchema = new Schema<TAdmin, AdminModel>(
         emergencyContactNo: { type: String, required: true },
         bloodGroup: {
             type: String,
-            enum: bloodGroupTypes,
+            enum: bloodGroupArray,
         },
         presentAddress: { type: String, required: true },
         permanentAddress: { type: String, required: true },
-        profileImg: { type: String },
+        profileImg: { type: String, default: "" },
         isDeleted: {
             type: Boolean,
             default: false,

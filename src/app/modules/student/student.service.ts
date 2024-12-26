@@ -8,14 +8,9 @@ import { studentSearchableFields } from "./student.constant";
 
 const getAllStudentsFromDB = async (query: Record<string, unknown>) => {
     const studentQuery = new QueryBuilder(
-        Student.find()
-            .populate("admissionSemester")
-            .populate({
-                path: "academicDepartment",
-                populate: {
-                    path: "academicFaculty",
-                },
-            }),
+        Student.find().populate(
+            "admissionSemester academicDepartment academicFaculty",
+        ),
         query,
     )
         .search(studentSearchableFields)
@@ -25,20 +20,15 @@ const getAllStudentsFromDB = async (query: Record<string, unknown>) => {
         .fields();
 
     const result = await studentQuery.modelQuery;
-    const metaData = await studentQuery.getMetaData();
+    const meta = await studentQuery.getMetaData();
 
-    return { metaData, result };
+    return { meta, result };
 };
 
 const getStudentByIdFromDB = async (id: string) => {
-    const result = await Student.findById(id)
-        .populate("admissionSemester")
-        .populate({
-            path: "academicDepartment",
-            populate: {
-                path: "academicFaculty",
-            },
-        });
+    const result = await Student.findById(id).populate(
+        "admissionSemester academicDepartment academicFaculty",
+    );
     // const result = await Student.aggregate([{ $match: { id: id } }]);
     return result;
 };

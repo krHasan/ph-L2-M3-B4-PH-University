@@ -1,7 +1,11 @@
 import { model, Schema } from "mongoose";
 import { FacultyModel, TFaculty } from "./faculty.interface";
-import { userNameSchema } from "../common/common.schema";
-import { bloodGroupTypes, genderTypes } from "../common/common.constant";
+import { userNameSchema } from "../user/user.schema";
+import {
+    bloodGroupArray,
+    genderTypesArray,
+    genderTypesErrorMessage,
+} from "../user/user.constant";
 
 const facultySchema = new Schema<TFaculty, FacultyModel>(
     {
@@ -27,8 +31,8 @@ const facultySchema = new Schema<TFaculty, FacultyModel>(
         gender: {
             type: String,
             enum: {
-                values: genderTypes,
-                message: "Gender is Male, Female or Other",
+                values: genderTypesArray,
+                message: genderTypesErrorMessage,
             },
             required: true,
         },
@@ -38,14 +42,19 @@ const facultySchema = new Schema<TFaculty, FacultyModel>(
         emergencyContactNo: { type: String, required: true },
         bloodGroup: {
             type: String,
-            enum: bloodGroupTypes,
+            enum: bloodGroupArray,
         },
         presentAddress: { type: String, required: true },
         permanentAddress: { type: String, required: true },
-        profileImg: { type: String },
+        profileImg: { type: String, default: "" },
         academicDepartment: {
             type: Schema.Types.ObjectId,
+            required: [true, "Academic department is required"],
             ref: "AcademicDepartment",
+        },
+        academicFaculty: {
+            type: Schema.Types.ObjectId,
+            ref: "AcademicFaculty",
         },
         isDeleted: {
             type: Boolean,

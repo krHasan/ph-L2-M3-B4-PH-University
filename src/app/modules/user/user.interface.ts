@@ -1,6 +1,22 @@
 /* eslint-disable no-unused-vars */
 import { Model } from "mongoose";
-import { USER_ROLE } from "./user.constant";
+import {
+    BLOOD_GROUPS,
+    GENDER_TYPES,
+    USER_ROLE,
+    USER_STATUS,
+} from "./user.constant";
+
+export type TUserRole = keyof typeof USER_ROLE;
+export type TUserStatus = keyof typeof USER_STATUS;
+export type TGender = keyof typeof GENDER_TYPES;
+export type TBloodGroup = keyof typeof BLOOD_GROUPS;
+
+export type TUserName = {
+    firstName: string;
+    middleName?: string;
+    lastName: string;
+};
 
 export interface TUser {
     id: string;
@@ -8,8 +24,8 @@ export interface TUser {
     password: string;
     needsPasswordChange: boolean;
     passwordChangedAt?: Date;
-    role: "Admin" | "Student" | "Faculty";
-    status: "in-progress" | "blocked" | "active";
+    role: TUserRole;
+    status: TUserStatus;
     isDeleted: boolean;
 }
 
@@ -24,5 +40,3 @@ export interface UserModel extends Model<TUser> {
         jwtIssuedTimestamp: number,
     ): boolean;
 }
-
-export type TUserRole = keyof typeof USER_ROLE;

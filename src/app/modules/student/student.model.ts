@@ -5,8 +5,12 @@ import {
     TStudent,
     StudentModel,
 } from "./student.interface";
-import { userNameSchema } from "../common/common.schema";
-import { bloodGroupTypes, genderTypes } from "../common/common.constant";
+import { userNameSchema } from "../user/user.schema";
+import {
+    bloodGroupArray,
+    genderTypesArray,
+    genderTypesErrorMessage,
+} from "../user/user.constant";
 
 const guardianSchema = new Schema<TGuardian>({
     fatherName: { type: String, required: true },
@@ -41,8 +45,8 @@ const studentSchema = new Schema<TStudent, StudentModel>(
         gender: {
             type: String,
             enum: {
-                values: genderTypes,
-                message: "Gender is Male, Female or Other",
+                values: genderTypesArray,
+                message: genderTypesErrorMessage,
             },
             required: true,
         },
@@ -52,7 +56,7 @@ const studentSchema = new Schema<TStudent, StudentModel>(
         emergencyContactNo: { type: String, required: true },
         bloodGroup: {
             type: String,
-            enum: bloodGroupTypes,
+            enum: bloodGroupArray,
         },
         presentAddress: { type: String, required: true },
         permanentAddress: { type: String, required: true },
@@ -64,7 +68,7 @@ const studentSchema = new Schema<TStudent, StudentModel>(
             type: localGuardianSchema,
             required: true,
         },
-        profileImg: { type: String },
+        profileImg: { type: String, default: "" },
         admissionSemester: {
             type: Schema.Types.ObjectId,
             ref: "AcademicSemester",
@@ -76,6 +80,10 @@ const studentSchema = new Schema<TStudent, StudentModel>(
         academicDepartment: {
             type: Schema.Types.ObjectId,
             ref: "AcademicDepartment",
+        },
+        academicFaculty: {
+            type: Schema.Types.ObjectId,
+            ref: "AcademicFaculty",
         },
     },
     {

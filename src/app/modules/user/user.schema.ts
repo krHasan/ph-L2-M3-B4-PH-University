@@ -1,5 +1,5 @@
 import { Schema } from "mongoose";
-import { TUserName } from "./common.interface";
+import { TUserName } from "./user.interface";
 
 export const userNameSchema = new Schema<TUserName>({
     firstName: {

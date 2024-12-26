@@ -1,5 +1,5 @@
 import { Model, Types } from "mongoose";
-import { TBloodGroup, TGender, TUserName } from "../common/common.interface";
+import { TBloodGroup, TGender, TUserName } from "../user/user.interface";
 
 export type TGuardian = {
     fatherName: string;
@@ -35,6 +35,7 @@ export type TStudent = {
     admissionSemester?: Types.ObjectId;
     isDeleted: boolean;
     academicDepartment: Types.ObjectId;
+    academicFaculty: Types.ObjectId;
 };
 
 //for creating static method

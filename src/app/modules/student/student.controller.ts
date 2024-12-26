@@ -9,7 +9,8 @@ const getAllStudents = catchAsync(async (req, res) => {
         success: true,
         statusCode: 200,
         message: "Students list",
-        data: result,
+        meta: result.meta,
+        data: result.result,
     });
 });
 

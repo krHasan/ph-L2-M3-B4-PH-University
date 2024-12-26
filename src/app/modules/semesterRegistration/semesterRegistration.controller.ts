@@ -24,8 +24,8 @@ const getAllSemesterRegistrations = catchAsync(async (req, res) => {
         success: true,
         statusCode: 200,
         message: "Semester Registration list",
-        count: result?.length,
-        data: result,
+        meta: result.meta,
+        data: result.result,
     });
 });
 

@@ -1,5 +1,5 @@
 import { Model, Types } from "mongoose";
-import { TBloodGroup, TGender, TUserName } from "../common/common.interface";
+import { TBloodGroup, TGender, TUserName } from "../user/user.interface";
 
 export type TAdmin = {
     id: string;

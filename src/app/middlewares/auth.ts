@@ -6,6 +6,7 @@ import config from "../config";
 import { TUserRole } from "../modules/user/user.interface";
 import { User } from "../modules/user/user.model";
 import { verifyToken } from "../modules/auth/auth.utils";
+import { USER_STATUS } from "../modules/user/user.constant";
 
 const auth = (...requiredRoles: TUserRole[]) => {
     return async (req: Request, res: Response, next: NextFunction) => {
@@ -27,7 +28,11 @@ const auth = (...requiredRoles: TUserRole[]) => {
             const { role, userId, iat } = decoded;
 
             const user = await User.isUserExistsByCustomId(userId);
-            if (!user || user?.isDeleted || user?.status === "blocked") {
+            if (
+                !user ||
+                user?.isDeleted ||
+                user?.status === USER_STATUS.Blocked
+            ) {
                 throw new AppError(httpStatus.NOT_FOUND, "User not found");
             }
 

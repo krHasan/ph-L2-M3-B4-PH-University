@@ -7,10 +7,11 @@ import bcrypt from "bcrypt";
 import { createToken, verifyToken } from "./auth.utils";
 import { httpStatus } from "../../config/httpStatus";
 import { sendEmail } from "../../utils/sendEmail";
+import { USER_STATUS } from "../user/user.constant";
 
 const loginUser = async (payload: TLoginUser) => {
     const user = await User.isUserExistsByCustomId(payload?.id);
-    if (!user || user?.isDeleted || user?.status === "blocked") {
+    if (!user || user?.isDeleted || user?.status === USER_STATUS.Blocked) {
         throw new AppError(404, "User not found");
     }
 
@@ -52,7 +53,7 @@ const changePassword = async (
     payload: { oldPassword: string; newPassword: string },
 ) => {
     const user = await User.isUserExistsByCustomId(userData?.userId);
-    if (!user || user?.isDeleted || user?.status === "blocked") {
+    if (!user || user?.isDeleted || user?.status === USER_STATUS.Blocked) {
         throw new AppError(404, "User not found");
     }
 
@@ -91,7 +92,7 @@ const refreshToken = async (token: string) => {
     const { userId, iat } = decoded;
 
     const user = await User.isUserExistsByCustomId(userId);
-    if (!user || user?.isDeleted || user?.status === "blocked") {
+    if (!user || user?.isDeleted || user?.status === USER_STATUS.Blocked) {
         throw new AppError(httpStatus.NOT_FOUND, "User not found");
     }
 
@@ -123,7 +124,7 @@ const refreshToken = async (token: string) => {
 
 const forgetPassword = async (userId: string) => {
     const user = await User.isUserExistsByCustomId(userId);
-    if (!user || user?.isDeleted || user?.status === "blocked") {
+    if (!user || user?.isDeleted || user?.status === USER_STATUS.Blocked) {
         throw new AppError(httpStatus.NOT_FOUND, "User not found");
     }
 
@@ -148,7 +149,7 @@ const resetPassword = async (
     token: string,
 ) => {
     const user = await User.isUserExistsByCustomId(payload.id);
-    if (!user || user?.isDeleted || user?.status === "blocked") {
+    if (!user || user?.isDeleted || user?.status === USER_STATUS.Blocked) {
         throw new AppError(httpStatus.NOT_FOUND, "User not found");
     }
 

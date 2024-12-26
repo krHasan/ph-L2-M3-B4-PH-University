@@ -1,19 +1,20 @@
 import { z } from "zod";
-import { CommonValidationSchemas } from "../common/common.validation";
+import { bloodGroupArray, genderTypesArray } from "../user/user.constant";
+import { UserValidation } from "../user/user.validation";
 
 const createFacultyValidationSchema = z.object({
     body: z.object({
         password: z.string().max(20).optional(),
         faculty: z.object({
-            name: CommonValidationSchemas.userNameValidationSchema,
+            name: UserValidation.userNameValidationSchema,
             designation: z.string(),
-            gender: z.enum(["Male", "Female", "Other"]),
+            gender: z.enum(genderTypesArray as [string, ...string[]]),
             dateOfBirth: z.string().optional(),
             email: z.string().email(),
             contactNo: z.string(),
             emergencyContactNo: z.string(),
             bloodGroup: z
-                .enum(["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"])
+                .enum(bloodGroupArray as [string, ...string[]])
                 .optional(),
             presentAddress: z.string(),
             permanentAddress: z.string(),
@@ -27,15 +28,17 @@ const updateFacultyValidationSchema = z.object({
     body: z.object({
         password: z.string().max(20).optional(),
         faculty: z.object({
-            name: CommonValidationSchemas.updateUserNameValidationSchema,
+            name: UserValidation.updateUserNameValidationSchema,
             designation: z.string().optional(),
-            gender: z.enum(["Male", "Female", "Other"]).optional(),
+            gender: z
+                .enum(genderTypesArray as [string, ...string[]])
+                .optional(),
             dateOfBirth: z.string().optional(),
             email: z.string().email().optional(),
             contactNo: z.string().optional(),
             emergencyContactNo: z.string().optional(),
             bloodGroup: z
-                .enum(["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"])
+                .enum(bloodGroupArray as [string, ...string[]])
                 .optional(),
             presentAddress: z.string().optional(),
             permanentAddress: z.string().optional(),

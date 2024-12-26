@@ -1,3 +1,4 @@
+import { httpStatus } from "../../config/httpStatus";
 import catchAsync from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
 import { FacultyServices } from "./faculty.service";
@@ -6,10 +7,10 @@ const getAllFaculties = catchAsync(async (req, res) => {
     const result = await FacultyServices.getAllFacultyFromDB(req.query);
     sendResponse(res, {
         success: true,
-        statusCode: 200,
+        statusCode: httpStatus.OK,
         message: "Faculties list",
-        count: result?.length,
-        data: result,
+        meta: result.meta,
+        data: result.result,
     });
 });
 
@@ -17,7 +18,7 @@ const getFacultyById = catchAsync(async (req, res) => {
     const result = await FacultyServices.getFacultyByIdFromDB(req.params.id);
     sendResponse(res, {
         success: true,
-        statusCode: 200,
+        statusCode: httpStatus.OK,
         message: "Faculty Information",
         data: result,
     });
@@ -29,7 +30,7 @@ const deleteFacultyById = catchAsync(async (req, res) => {
 
     sendResponse(res, {
         success: true,
-        statusCode: 200,
+        statusCode: httpStatus.OK,
         message: "Faculty is deleted",
         data: result,
     });
@@ -44,7 +45,7 @@ const updateFaculty = catchAsync(async (req, res) => {
 
     sendResponse(res, {
         success: true,
-        statusCode: 200,
+        statusCode: httpStatus.OK,
         message: "Faculty is Updated Successfully",
         data: result,
     });

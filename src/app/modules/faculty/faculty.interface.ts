@@ -1,5 +1,5 @@
 import { Model, Types } from "mongoose";
-import { TBloodGroup, TGender, TUserName } from "../common/common.interface";
+import { TBloodGroup, TGender, TUserName } from "../user/user.interface";
 
 export type TFaculty = {
     id: string;
@@ -16,6 +16,7 @@ export type TFaculty = {
     permanentAddress: string;
     profileImg?: string;
     academicDepartment: Types.ObjectId;
+    academicFaculty: Types.ObjectId;
     isDeleted: boolean;
 };
 

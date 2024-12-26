@@ -60,8 +60,9 @@ const getAllSemesterRegistrationFromDB = async (
         .fields();
 
     const result = await semesterRegistrationQuery.modelQuery;
+    const meta = await semesterRegistrationQuery.getMetaData();
 
-    return result;
+    return { meta, result };
 };
 
 const getSemesterRegistrationByIdFromDB = async (id: string) => {

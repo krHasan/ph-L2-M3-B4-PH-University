@@ -9,13 +9,22 @@ const router = express.Router();
 
 router.get(
     "/",
-    auth(USER_ROLE.Admin, USER_ROLE.Faculty),
+    auth(USER_ROLE.SuperAdmin, USER_ROLE.Admin, USER_ROLE.Faculty),
     FacultyControllers.getAllFaculties,
 );
-router.get("/:id", FacultyControllers.getFacultyById);
-router.delete("/:id", FacultyControllers.deleteFacultyById);
+router.get(
+    "/:id",
+    auth(USER_ROLE.SuperAdmin, USER_ROLE.Admin, USER_ROLE.Faculty),
+    FacultyControllers.getFacultyById,
+);
+router.delete(
+    "/:id",
+    auth(USER_ROLE.SuperAdmin, USER_ROLE.Admin),
+    FacultyControllers.deleteFacultyById,
+);
 router.patch(
     "/:id",
+    auth(USER_ROLE.SuperAdmin, USER_ROLE.Admin),
     validateRequest(facultyValidations.updateFacultyValidationSchema),
     FacultyControllers.updateFaculty,
 );

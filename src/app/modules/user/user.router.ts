@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-unused-vars */
 import express, { NextFunction, Request, Response } from "express";
 import { UserControllers } from "./user.controller";
 import { studentValidations } from "../student/student.validation";
@@ -15,7 +13,7 @@ const router = express.Router();
 
 router.post(
     "/create-student",
-    auth(USER_ROLE.Admin),
+    auth(USER_ROLE.SuperAdmin, USER_ROLE.Admin),
     upload.single("file"),
     (req: Request, res: Response, next: NextFunction) => {
         req.body = JSON.parse(req.body.data);
@@ -26,7 +24,7 @@ router.post(
 );
 router.post(
     "/create-faculty",
-    auth(USER_ROLE.Admin),
+    auth(USER_ROLE.SuperAdmin, USER_ROLE.Admin),
     upload.single("file"),
     (req: Request, res: Response, next: NextFunction) => {
         req.body = JSON.parse(req.body.data);
@@ -37,7 +35,7 @@ router.post(
 );
 router.post(
     "/create-admin",
-    // auth(USER_ROLE.Admin),
+    auth(USER_ROLE.SuperAdmin),
     upload.single("file"),
     (req: Request, res: Response, next: NextFunction) => {
         req.body = JSON.parse(req.body.data);
@@ -53,7 +51,7 @@ router.get(
 );
 router.post(
     "/change-status/:id",
-    auth(USER_ROLE.Admin),
+    auth(USER_ROLE.SuperAdmin, USER_ROLE.Admin),
     validateRequest(UserValidation.changeStatusValidationSchema),
     UserControllers.changeStatus,
 );

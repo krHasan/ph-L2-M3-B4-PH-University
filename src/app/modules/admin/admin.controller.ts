@@ -8,8 +8,8 @@ const getAllAdmins = catchAsync(async (req, res) => {
         success: true,
         statusCode: 200,
         message: "Admins list",
-        count: result?.length,
-        data: result,
+        meta: result.meta,
+        data: result.result,
     });
 });
 

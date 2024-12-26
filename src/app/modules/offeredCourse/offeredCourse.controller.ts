@@ -22,7 +22,21 @@ const getAllOfferedCourses = catchAsync(async (req, res) => {
         success: true,
         statusCode: 200,
         message: "Offered course lists",
-        count: result?.length,
+        meta: result.meta,
+        data: result.result,
+    });
+});
+
+const getMyOfferedCourses = catchAsync(async (req, res) => {
+    const userId = req.user.userId;
+    const result = await OfferedCourseServices.getMyOfferedCoursesFromDB(
+        userId,
+        req.query,
+    );
+    sendResponse(res, {
+        success: true,
+        statusCode: 200,
+        message: "My offered courses lists",
         data: result,
     });
 });
@@ -67,6 +81,7 @@ const deleteOfferedCourse = catchAsync(async (req, res) => {
 export const OfferedCourseControllers = {
     createOfferedCourse,
     getAllOfferedCourses,
+    getMyOfferedCourses,
     getOfferedCourse,
     updateOfferedCourse,
     deleteOfferedCourse,
