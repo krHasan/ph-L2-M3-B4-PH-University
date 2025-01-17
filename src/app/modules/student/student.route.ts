@@ -10,22 +10,22 @@ const router = express.Router();
 //will call controller
 router.get(
     "/",
-    auth(USER_ROLE.SuperAdmin, USER_ROLE.Admin),
+    auth(USER_ROLE.superAdmin, USER_ROLE.admin),
     StudentControllers.getAllStudents,
 );
 router.get(
     "/:id",
-    auth(USER_ROLE.SuperAdmin, USER_ROLE.Admin, USER_ROLE.Faculty),
+    auth(USER_ROLE.superAdmin, USER_ROLE.admin, USER_ROLE.faculty),
     StudentControllers.getStudentById,
 );
 router.delete(
     "/:id",
-    auth(USER_ROLE.SuperAdmin, USER_ROLE.Admin),
+    auth(USER_ROLE.superAdmin, USER_ROLE.admin),
     StudentControllers.deleteStudentById,
 );
 router.patch(
     "/:id",
-    auth(USER_ROLE.SuperAdmin, USER_ROLE.Admin),
+    auth(USER_ROLE.superAdmin, USER_ROLE.admin),
     validateRequest(studentValidations.updateStudentValidationSchema),
     StudentControllers.updateStudent,
 );

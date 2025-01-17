@@ -31,7 +31,7 @@ const auth = (...requiredRoles: TUserRole[]) => {
             if (
                 !user ||
                 user?.isDeleted ||
-                user?.status === USER_STATUS.Blocked
+                user?.status === USER_STATUS.blocked
             ) {
                 throw new AppError(httpStatus.NOT_FOUND, "User not found");
             }

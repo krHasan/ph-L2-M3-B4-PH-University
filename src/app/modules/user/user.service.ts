@@ -30,7 +30,7 @@ const createStudentIntoDB = async (
     const userData: Partial<TUser> = {};
 
     userData.password = password || (config.default_password as string);
-    userData.role = USER_ROLE.Student;
+    userData.role = USER_ROLE.student;
     userData.email = payload.email;
 
     const admissionSemester = await AcademicSemester.findById(
@@ -104,7 +104,7 @@ const createFacultyIntoDB = async (
     const userData: Partial<TUser> = {};
 
     userData.password = password || (config.default_password as string);
-    userData.role = USER_ROLE.Faculty;
+    userData.role = USER_ROLE.faculty;
     userData.email = payload.email;
 
     const academicDepartment = await AcademicDepartment.findById(
@@ -170,7 +170,7 @@ const createAdminIntoDB = async (
     const userData: Partial<TUser> = {};
 
     userData.password = password || (config.default_password as string);
-    userData.role = USER_ROLE.Admin;
+    userData.role = USER_ROLE.admin;
     userData.email = payload.email;
 
     const session = await mongoose.startSession();
@@ -217,13 +217,13 @@ const createAdminIntoDB = async (
 const getMe = async (decoded: JwtPayload) => {
     const { userId, role } = decoded;
     let result = null;
-    if (role === USER_ROLE.Student) {
+    if (role === USER_ROLE.student) {
         result = await Student.findOne({ id: userId });
     }
-    if (role === USER_ROLE.Admin) {
+    if (role === USER_ROLE.admin) {
         result = await Admin.findOne({ id: userId });
     }
-    if (role === USER_ROLE.Faculty) {
+    if (role === USER_ROLE.faculty) {
         result = await Faculty.findOne({ id: userId });
     }
     return result;

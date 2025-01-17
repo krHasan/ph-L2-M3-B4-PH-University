@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.post(
     "/create-enrolled-course",
-    auth(USER_ROLE.Student),
+    auth(USER_ROLE.student),
     validateRequest(
         EnrolledCourseValidations.createEnrolledCourseValidationSchema,
     ),
@@ -18,13 +18,13 @@ router.post(
 
 router.get(
     "/my-enrolled-courses",
-    auth(USER_ROLE.Student),
+    auth(USER_ROLE.student),
     EnrolledCourseControllers.myEnrolledCourses,
 );
 
 router.patch(
     "/update-enrolled-course-marks",
-    auth(USER_ROLE.Faculty, USER_ROLE.Admin, USER_ROLE.SuperAdmin),
+    auth(USER_ROLE.faculty, USER_ROLE.admin, USER_ROLE.superAdmin),
     validateRequest(
         EnrolledCourseValidations.updateEnrolledCourseMarksValidationSchema,
     ),

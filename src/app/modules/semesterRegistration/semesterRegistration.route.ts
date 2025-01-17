@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.post(
     "/create-semester-registration",
-    auth(USER_ROLE.SuperAdmin, USER_ROLE.Admin),
+    auth(USER_ROLE.superAdmin, USER_ROLE.admin),
     validateRequest(
         SemesterRegistrationValidations.createSemesterRegistrationValidationSchema,
     ),
@@ -18,26 +18,26 @@ router.post(
 router.get(
     "/",
     auth(
-        USER_ROLE.SuperAdmin,
-        USER_ROLE.Admin,
-        USER_ROLE.Faculty,
-        USER_ROLE.Student,
+        USER_ROLE.superAdmin,
+        USER_ROLE.admin,
+        USER_ROLE.faculty,
+        USER_ROLE.student,
     ),
     SemesterRegistrationControllers.getAllSemesterRegistrations,
 );
 router.get(
     "/:id",
     auth(
-        USER_ROLE.SuperAdmin,
-        USER_ROLE.Admin,
-        USER_ROLE.Faculty,
-        USER_ROLE.Student,
+        USER_ROLE.superAdmin,
+        USER_ROLE.admin,
+        USER_ROLE.faculty,
+        USER_ROLE.student,
     ),
     SemesterRegistrationControllers.getSemesterRegistrationById,
 );
 router.patch(
     "/:id",
-    auth(USER_ROLE.SuperAdmin, USER_ROLE.Admin),
+    auth(USER_ROLE.superAdmin, USER_ROLE.admin),
     validateRequest(
         SemesterRegistrationValidations.updateSemesterRegistrationValidationSchema,
     ),
@@ -45,7 +45,7 @@ router.patch(
 );
 router.delete(
     "/:id",
-    auth(USER_ROLE.SuperAdmin, USER_ROLE.Admin),
+    auth(USER_ROLE.superAdmin, USER_ROLE.admin),
     SemesterRegistrationControllers.deleteSemesterRegistration,
 );
 

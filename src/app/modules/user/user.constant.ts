@@ -1,21 +1,21 @@
 export const USER_ROLE = {
-    Student: "Student",
-    Faculty: "Faculty",
-    Admin: "Admin",
-    SuperAdmin: "SuperAdmin",
+    student: "student",
+    faculty: "faculty",
+    admin: "admin",
+    superAdmin: "superAdmin",
 } as const;
 export const userRoleArray = Object.values(USER_ROLE);
 
 export const USER_STATUS = {
-    Active: "Active",
-    Blocked: "Blocked",
+    active: "active",
+    blocked: "blocked",
 } as const;
 export const userStatusArray = Object.values(USER_STATUS);
 
 export const GENDER_TYPES = {
-    Male: "Male",
-    Female: "Female",
-    Other: "Other",
+    male: "male",
+    female: "female",
+    other: "other",
 } as const;
 export const genderTypesArray = Object.values(GENDER_TYPES);
 export const genderTypesErrorMessage = `Allowed gender types are ${genderTypesArray.join(", ")}`;

@@ -35,7 +35,7 @@ const userSchema = new Schema<TUser, UserModel>(
         status: {
             type: String,
             enum: userStatusArray,
-            default: USER_STATUS.Active,
+            default: USER_STATUS.active,
         },
         isDeleted: {
             type: Boolean,
