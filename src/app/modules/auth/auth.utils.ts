@@ -1,4 +1,6 @@
 import jwt, { JwtPayload } from "jsonwebtoken";
+import AppError from "../../errors/AppError";
+import { httpStatus } from "../../config/httpStatus";
 
 export const createToken = (
     jwtPayload: { userId: string; role: string },
@@ -11,5 +13,10 @@ export const createToken = (
 };
 
 export const verifyToken = (token: string, secret: string) => {
-    return jwt.verify(token, secret) as JwtPayload;
+    try {
+        return jwt.verify(token, secret) as JwtPayload;
+        // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+    } catch (error) {
+        throw new AppError(httpStatus.UNAUTHORIZED, "You are not authorized");
+    }
 };
