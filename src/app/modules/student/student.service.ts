@@ -9,7 +9,7 @@ import { studentSearchableFields } from "./student.constant";
 const getAllStudentsFromDB = async (query: Record<string, unknown>) => {
     const studentQuery = new QueryBuilder(
         Student.find().populate(
-            "admissionSemester academicDepartment academicFaculty",
+            "user admissionSemester academicDepartment academicFaculty",
         ),
         query,
     )
