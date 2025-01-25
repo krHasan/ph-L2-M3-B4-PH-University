@@ -37,7 +37,8 @@ const getMyOfferedCourses = catchAsync(async (req, res) => {
         success: true,
         statusCode: 200,
         message: "My offered courses lists",
-        data: result,
+        meta: result.meta,
+        data: result.result,
     });
 });
 
